@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -88,7 +89,13 @@ namespace CorelLASERBot
             var y = MousePosition.Y;
             SetCursorPos(xpos, ypos);
             mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
+            Thread.Sleep(100);
             mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
+            Thread.Sleep(100);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
+            Thread.Sleep(100);
+            mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
+            Thread.Sleep(100);
             SetCursorPos(x, y);
 
         }
@@ -120,83 +127,64 @@ namespace CorelLASERBot
                 {
                     bmpSmall = (Bitmap)Image.FromFile("template.bmp");
                 }
-                Bitmap small = (Bitmap)bmpSmall.Clone();
-                Bitmap big = (Bitmap)screenCapture.Clone();
-                Invoke((MethodInvoker)delegate ()
-                {
-                    pictureBox1.Image = screenCapture;
-                    pictureBox2.Image = bmpSmall;
-                });
 
                 Invoke((MethodInvoker)delegate ()
                 {
-                    labelStatus.Text = "1!";
+                    labelStatus.Text = "Process IMG!";
                 });
 
-                var test = false;
-                using (
-                    Bitmap
-                        _small = new Bitmap(small),
-                        _big = new Bitmap(big)
-)
+                //var test = IsInCapture(bmpSmall, screenCapture);
+
+                Rectangle location = searchBitmap(bmpSmall, screenCapture, 0.1);
+                var test = location.Width;
+                if (test > 0)
                 {
-                    test = IsInCapture(_small, _big);
-
-
-                    //var test = false;
                     Invoke((MethodInvoker)delegate ()
                     {
-                        labelStatus.Text = "2!";
+                        labelStatus.Text = "Found!";
                     });
-                    if (test)
+                    string app = "CorelDRW";
+                    Process[] p = Process.GetProcessesByName(app);
+                    //Process[] p = Process.GetProcessesByName("Notepad");
+
+                    // Activate the first application we find with this name
+                    if (p.Count() > 0)
                     {
-
-                        Invoke((MethodInvoker)delegate ()
-                        {
-                            labelStatus.Text = "Found!";
-                        });
-                        string app = "CorelDRW";
-                        Process[] p = Process.GetProcessesByName(app);
-                        //Process[] p = Process.GetProcessesByName("Notepad");
-
-                        // Activate the first application we find with this name
-                        if (p.Count() > 0)
-                        {
-                            //SetForegroundWindow(p[0].MainWindowHandle);
-                            Thread.Sleep(1000);
-                            LeftMouseClick(Settings.Default.CURSOR_X, Settings.Default.CURSOR_Y);
-                            //SendKeys.SendWait("{ENTER}");
-                            //var task = Task.Run(() => DoSomething(token), token);
-                            //return;
-                        }
-                        else
-                        {
-                            Invoke((MethodInvoker)delegate ()
-                            {
-                                labelStatus.Text = "No " + app + "!";
-                            });
-                            Thread.Sleep(1000);
-                        }
+                        //SetForegroundWindow(p[0].MainWindowHandle);
+                        Thread.Sleep(1000);
+                        LeftMouseClick(Settings.Default.CURSOR_X, Settings.Default.CURSOR_Y);
+                        //SendKeys.SendWait("{ENTER}");
+                        //var task = Task.Run(() => DoSomething(token), token);
+                        //return;
                     }
                     else
                     {
-
                         Invoke((MethodInvoker)delegate ()
                         {
-                            labelStatus.Text = "Continue...";
+                            labelStatus.Text = "No " + app + "!";
                         });
                         Thread.Sleep(1000);
-
-                    }
-
-                    // See if we are canceled from our CancellationTokenSource.
-                    if (token.IsCancellationRequested)
-                    {
-                        Console.WriteLine("Method1 canceled");
-                        break;
                     }
                 }
+                else
+                {
+
+                    Invoke((MethodInvoker)delegate ()
+                    {
+                        labelStatus.Text = "Continue...";
+                    });
+                    Thread.Sleep(1000);
+
+                }
+
+                // See if we are canceled from our CancellationTokenSource.
+                if (token.IsCancellationRequested)
+                {
+                    Console.WriteLine("Method1 canceled");
+                    break;
+                }
             }
+
             Invoke((MethodInvoker)delegate ()
             {
                 labelStatus.Text = "Idle...";
@@ -205,42 +193,152 @@ namespace CorelLASERBot
 
         private bool IsInCapture(Bitmap searchFor, Bitmap searchIn)
         {
-            //for (int x = 0; x < searchIn.Width; x++)
-            //{
-            //    for (int y = 0; y < searchIn.Height; y++)
-            //    {
-            //        bool invalid = false;
-            //        int k = x, l = y;
-            //        for (int a = 0; a < searchFor.Width; a++)
-            //        {
-            //            l = y;
-            //            for (int b = 0; b < searchFor.Height; b++)
-            //            {
-            //                if (searchFor.GetPixel(a, b) != searchIn.GetPixel(k, l))
-            //                {
-            //                    invalid = true;
-            //                    break;
-            //                }
-            //                else
-            //                    l++;
-            //                if (token.IsCancellationRequested) break;
-            //            }
-            //            if (invalid)
-            //                break;
-            //            else
-            //                k++;
-            //            if (token.IsCancellationRequested) break;
-            //        }
-            //        if (!invalid)
-            //            return true;
-            //        if (token.IsCancellationRequested) break;
-            //    }
-            //    if (token.IsCancellationRequested) break;
-            //}
+            int iterate = 0;
+            for (int x = 0; x < searchIn.Width; x++)
+            {
+                for (int y = 0; y < searchIn.Height; y++)
+                {
+                    bool invalid = false;
+                    int k = x, l = y;
+                    for (int a = 0; a < searchFor.Width; a++)
+                    {
+                        l = y;
+                        for (int b = 0; b < searchFor.Height; b++)
+                        {
+                            if (searchFor.GetPixel(a, b) != searchIn.GetPixel(k, l))
+                            {
+                                invalid = true;
+                                break;
+                            }
+                            else
+                                l++;
+                            iterate++;
+                            Invoke((MethodInvoker)delegate ()
+                            {
+                                labelStatus.Text = "I:" + iterate + "\n" +
+                                "X:" + searchIn.Width + " - " + x + "\n" +
+                                "Y:" + searchIn.Height + " - " + y + "\n" +
+                                "A:" + searchFor.Width + " - " + a + "\n" +
+                                "B:" + searchFor.Height + " - " + b + 
+                                "";
+                            });
 
-            Thread.Sleep(5000);
+                            if (token.IsCancellationRequested) break;
+                        }
+                        if (invalid)
+                            break;
+                        else
+                            k++;
+                        if (token.IsCancellationRequested) break;
+                    }
+                    if (!invalid)
+                        return true;
+                    if (token.IsCancellationRequested) break;
+                }
+                if (token.IsCancellationRequested) break;
+            }
 
             return false;
+        }
+
+        private Rectangle searchBitmap(Bitmap smallBmp, Bitmap bigBmp, double tolerance)
+        {
+            BitmapData smallData =
+              smallBmp.LockBits(new Rectangle(0, 0, smallBmp.Width, smallBmp.Height),
+                       System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                       System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            BitmapData bigData =
+              bigBmp.LockBits(new Rectangle(0, 0, bigBmp.Width, bigBmp.Height),
+                       System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                       System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+            int smallStride = smallData.Stride;
+            int bigStride = bigData.Stride;
+
+            int bigWidth = bigBmp.Width;
+            int bigHeight = bigBmp.Height - smallBmp.Height + 1;
+            int smallWidth = smallBmp.Width * 3;
+            int smallHeight = smallBmp.Height;
+
+            Rectangle location = Rectangle.Empty;
+            int margin = Convert.ToInt32(255.0 * tolerance);
+
+            unsafe
+            {
+                byte* pSmall = (byte*)(void*)smallData.Scan0;
+                byte* pBig = (byte*)(void*)bigData.Scan0;
+
+                int smallOffset = smallStride - smallBmp.Width * 3;
+                int bigOffset = bigStride - bigBmp.Width * 3;
+
+                bool matchFound = true;
+
+                for (int y = 0; y < bigHeight; y++)
+                {
+                    for (int x = 0; x < bigWidth; x++)
+                    {
+                        byte* pBigBackup = pBig;
+                        byte* pSmallBackup = pSmall;
+
+                        //Look for the small picture.
+                        for (int i = 0; i < smallHeight; i++)
+                        {
+                            int j = 0;
+                            matchFound = true;
+                            for (j = 0; j < smallWidth; j++)
+                            {
+                                //With tolerance: pSmall value should be between margins.
+                                int inf = pBig[0] - margin;
+                                int sup = pBig[0] + margin;
+                                if (sup < pSmall[0] || inf > pSmall[0])
+                                {
+                                    matchFound = false;
+                                    break;
+                                }
+
+                                pBig++;
+                                pSmall++;
+                            }
+
+                            if (!matchFound) break;
+
+                            //We restore the pointers.
+                            pSmall = pSmallBackup;
+                            pBig = pBigBackup;
+
+                            //Next rows of the small and big pictures.
+                            pSmall += smallStride * (1 + i);
+                            pBig += bigStride * (1 + i);
+                        }
+
+                        //If match found, we return.
+                        if (matchFound)
+                        {
+                            location.X = x;
+                            location.Y = y;
+                            location.Width = smallBmp.Width;
+                            location.Height = smallBmp.Height;
+                            break;
+                        }
+                        //If no match found, we restore the pointers and continue.
+                        else
+                        {
+                            pBig = pBigBackup;
+                            pSmall = pSmallBackup;
+                            pBig += 3;
+                        }
+                    }
+
+                    if (matchFound) break;
+
+                    pBig += bigOffset;
+                }
+            }
+
+            bigBmp.UnlockBits(bigData);
+            smallBmp.UnlockBits(smallData);
+
+            return location;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -249,11 +347,11 @@ namespace CorelLASERBot
             //var task = Task.Run(() => tracker());
             buttonStart.Tag = "inactive";
             Location = new Point(Convert.ToInt32(Screen.PrimaryScreen.Bounds.Width * 0.6), 0);
-            //Size = new Size(215, 30);
+            Size = new Size(215, 30);
             labelStatus.Focus();
             Run_AutoClose();
 
-            Settings.Default.Reset();
+            //Settings.Default.Reset();
         }
 
         private void tracker()
