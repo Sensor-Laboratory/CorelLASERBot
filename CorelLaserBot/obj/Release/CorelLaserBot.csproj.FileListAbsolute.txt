@@ -1,0 +1,9 @@
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\bin\Release\CorelLASERBot.exe.config
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\bin\Release\CorelLASERBot.exe
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\bin\Release\CorelLASERBot.pdb
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\obj\Release\CorelLaserBot.csprojAssemblyReference.cache
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\obj\Release\CorelLASERBot.FormMain.resources
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\obj\Release\CorelLASERBot.Properties.Resources.resources
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\obj\Release\CorelLaserBot.csproj.GenerateResource.cache
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\obj\Release\CorelLASERBot.exe
+D:\01_Projects\_RESEARCH\CorelLaserBot\CorelLaserBot\obj\Release\CorelLASERBot.pdb
