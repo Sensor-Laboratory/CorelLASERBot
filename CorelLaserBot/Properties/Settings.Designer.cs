@@ -46,5 +46,29 @@ namespace CorelLASERBot.Properties {
                 this["CURSOR_Y"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PORT {
+            get {
+                return ((int)(this["PORT"]));
+            }
+            set {
+                this["PORT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PORT_NAME {
+            get {
+                return ((string)(this["PORT_NAME"]));
+            }
+            set {
+                this["PORT_NAME"] = value;
+            }
+        }
     }
 }
