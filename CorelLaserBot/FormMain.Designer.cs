@@ -220,7 +220,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 13);
             this.label2.TabIndex = 15;
-            this.label2.Text = "v1.2";
+            this.label2.Text = "v1.3";
             // 
             // serialPortMain
             // 
@@ -229,7 +229,7 @@
             // panelIndicator1
             // 
             this.panelIndicator1.BackColor = System.Drawing.Color.Red;
-            this.panelIndicator1.Location = new System.Drawing.Point(12, 15);
+            this.panelIndicator1.Location = new System.Drawing.Point(12, 14);
             this.panelIndicator1.Name = "panelIndicator1";
             this.panelIndicator1.Size = new System.Drawing.Size(5, 5);
             this.panelIndicator1.TabIndex = 1;
@@ -237,7 +237,7 @@
             // panelIndicator2
             // 
             this.panelIndicator2.BackColor = System.Drawing.Color.Red;
-            this.panelIndicator2.Location = new System.Drawing.Point(12, 22);
+            this.panelIndicator2.Location = new System.Drawing.Point(12, 23);
             this.panelIndicator2.Name = "panelIndicator2";
             this.panelIndicator2.Size = new System.Drawing.Size(5, 5);
             this.panelIndicator2.TabIndex = 2;
