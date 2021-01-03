@@ -370,18 +370,25 @@ namespace CorelLASERBot
                 }
             }
         }
+        int default_counter = 0;
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
+            Point[] Default_Locations = { new Point(660, 440), new Point(1, 2) };
             labelStatus.Focus();
 
-            if (MessageBox.Show("Reset ke nilai default?", "Cursor Location Capture", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Reset ke nilai [Default: " + default_counter + "]?", "Cursor Location Capture", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
 
-                Settings.Default.CURSOR_X = Convert.ToInt32(Settings.Default.Properties["CURSOR_X"].DefaultValue);
-                Settings.Default.CURSOR_Y = Convert.ToInt32(Settings.Default.Properties["CURSOR_Y"].DefaultValue);
+                Settings.Default.CURSOR_X = Default_Locations[default_counter].X;
+                Settings.Default.CURSOR_Y = Default_Locations[default_counter].Y;
                 Settings.Default.Save();
                 MessageBox.Show("Lokasi {X: " + Settings.Default.CURSOR_X + "; Y:" + Settings.Default.CURSOR_Y + ";} berhasil direset ke default!", "Cursor Location Capture", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                default_counter++;
+                if (default_counter >= Default_Locations.Length)
+                {
+                    default_counter = 0;
+                }
             }
 
             numericUpDownX.Value = Settings.Default.CURSOR_X;
