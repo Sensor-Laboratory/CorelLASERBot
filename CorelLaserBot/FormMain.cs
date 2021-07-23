@@ -24,7 +24,7 @@ namespace CorelLASERBot
         Stopwatch clock = new Stopwatch();
         long WAIT_TIME = 60 * 1000; //milisecond
         Size SOFTWARE_SIZE_MIN = new Size(418, 43);
-        Size SOFTWARE_SIZE_MAX = new Size(418, 176);
+        Size SOFTWARE_SIZE_MAX = new Size(418, 205);
 
         public FormMain()
         {
@@ -72,24 +72,22 @@ namespace CorelLASERBot
             labelStatus.Focus();
             Run_AutoClose();
 
-            numericUpDownX.Value = Settings.Default.CURSOR_X;
-            numericUpDownY.Value = Settings.Default.CURSOR_Y;
+            numericUpDownX.Value = Settings.Default.CURSOR_X1;
+            numericUpDownY.Value = Settings.Default.CURSOR_Y1;
             //Settings.Default.Reset();
             RefreshPort();
 
+            if (Settings.Default.CURSOR_INDEX == 0)
+            {
+                radioButtonMouse1.Checked = true;
+            }
+            else
+            {
+                radioButtonMouse2.Checked = true;
+            }
+            updateNumericUpDownPostion();
         }
 
-        private void tracker()
-        {
-            while (true)
-            {
-                Invoke((MethodInvoker)delegate ()
-                {
-                    //labelMousePosition.Text = "{X: " + MousePosition.X + "; Y:" + MousePosition.Y + ";}";
-                });
-                Thread.Sleep(500);
-            }
-        }
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -108,17 +106,7 @@ namespace CorelLASERBot
             }
         }
 
-        private void labelMousePosition_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void labelStatus_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void buttonCapture_Click(object sender, EventArgs e)
         {
 
         }
@@ -322,23 +310,33 @@ namespace CorelLASERBot
                           {
                               labelStatus.Text = "Data Available!";
                           });
-                        //Process[] p = Process.GetProcessesByName(app);
-                        Process[] p = Process.GetProcessesByName(APP_NAME);
+                          //Process[] p = Process.GetProcessesByName(app);
+                          Process[] p = Process.GetProcessesByName(APP_NAME);
 
-                        // Activate the first application we find with this name
-                        if (p.Count() > 0)
+                          // Activate the first application we find with this name
+                          if (p.Count() > 0)
                           {
                               Invoke((MethodInvoker)delegate ()
                               {
                                   labelStatus.Text = "Found!";
                               });
-                            //SetForegroundWindow(p[0].MainWindowHandle);
-                            Thread.Sleep(10 * 1000);
-                              LeftMouseClick(Settings.Default.CURSOR_X, Settings.Default.CURSOR_Y);
-                            //SendKeys.SendWait("{ENTER}");
-                            //var task = Task.Run(() => DoSomething(token), token);
-                            //return;
-                        }
+                              //SetForegroundWindow(p[0].MainWindowHandle);
+                              Thread.Sleep(10 * 1000);
+                              if (checkBoxDoubleAction.Checked)
+                              {
+                                  LeftMouseClick(Settings.Default.CURSOR_X1, Settings.Default.CURSOR_Y1);
+                                  Thread.Sleep(100);
+                                  LeftMouseClick(Settings.Default.CURSOR_X2, Settings.Default.CURSOR_Y2);
+                              }
+                              else
+                              {
+                                  LeftMouseClick((int)numericUpDownX.Value, (int)numericUpDownY.Value);
+                              }
+
+                              //SendKeys.SendWait("{ENTER}");
+                              //var task = Task.Run(() => DoSomething(token), token);
+                              //return;
+                          }
                           else
                           {
                               Invoke((MethodInvoker)delegate ()
@@ -370,55 +368,113 @@ namespace CorelLASERBot
                 }
             }
         }
-        int default_counter = 0;
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            Point[] Default_Locations = { new Point(660, 440), new Point(1, 2) };
+            Point[] Default_Locations = { new Point(1205, 13), new Point(660, 440) };
             labelStatus.Focus();
 
-            if (MessageBox.Show("Reset ke nilai [Default: " + default_counter + "]?", "Cursor Location Capture", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (radioButtonMouse1.Checked)
             {
-
-                Settings.Default.CURSOR_X = Default_Locations[default_counter].X;
-                Settings.Default.CURSOR_Y = Default_Locations[default_counter].Y;
-                Settings.Default.Save();
-                MessageBox.Show("Lokasi {X: " + Settings.Default.CURSOR_X + "; Y:" + Settings.Default.CURSOR_Y + ";} berhasil direset ke default!", "Cursor Location Capture", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                default_counter++;
-                if (default_counter >= Default_Locations.Length)
+                if (MessageBox.Show("Reset ke nilai [Default: 1]?", "Cursor Location Capture", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    default_counter = 0;
+
+                    Settings.Default.CURSOR_X1 = Default_Locations[0].X;
+                    Settings.Default.CURSOR_Y1 = Default_Locations[0].Y;
+                    Settings.Default.Save();
+                    MessageBox.Show("Lokasi {X: " + Settings.Default.CURSOR_X1 + "; Y:" + Settings.Default.CURSOR_Y1 + ";} berhasil direset ke default!", "Cursor Location Capture", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else if (radioButtonMouse2.Checked)
+            {
+                if (MessageBox.Show("Reset ke nilai [Default: 2]?", "Cursor Location Capture", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+
+                    Settings.Default.CURSOR_X2 = Default_Locations[1].X;
+                    Settings.Default.CURSOR_Y2 = Default_Locations[1].Y;
+                    Settings.Default.Save();
+                    MessageBox.Show("Lokasi {X: " + Settings.Default.CURSOR_X2 + "; Y:" + Settings.Default.CURSOR_Y2 + ";} berhasil direset ke default!", "Cursor Location Capture", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
 
-            numericUpDownX.Value = Settings.Default.CURSOR_X;
-            numericUpDownY.Value = Settings.Default.CURSOR_Y;
+            updateNumericUpDownPostion();
         }
 
         private async void buttonGet_Click(object sender, EventArgs e)
         {
+            int pos_x = 0;
+            int pos_y = 0;
             labelStatus.Focus();
             if (MessageBox.Show("Posisikan cursor pada lokasi yang akan di click. Software akan menunggu selama 5 detik kemudian menyimpan posisinya.\n\nTekan \"OK\" untuk mengubah posisi\nTekan \"Cancel\" untuk kembali", "Cursor Location Capture", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
             {
                 await Task.Run(() => { Thread.Sleep(5000); });
-                Settings.Default.CURSOR_X = MousePosition.X;
-                Settings.Default.CURSOR_Y = MousePosition.Y;
+                pos_x = MousePosition.X;
+                pos_y = MousePosition.Y;
+
+                if (radioButtonMouse1.Checked)
+                {
+                    Settings.Default.CURSOR_X1 = pos_x;
+                    Settings.Default.CURSOR_Y1 = pos_y;
+                }
+                if (radioButtonMouse2.Checked)
+                {
+                    Settings.Default.CURSOR_X2 = pos_x;
+                    Settings.Default.CURSOR_Y2 = pos_y;
+                }
                 Settings.Default.Save();
-                MessageBox.Show("Lokasi {X: " + Settings.Default.CURSOR_X + "; Y:" + Settings.Default.CURSOR_Y + ";} berhasil disimpan!", "Cursor Location Capture", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Lokasi {X: " + pos_x + "; Y:" + pos_y + ";} berhasil disimpan!", "Cursor Location Capture", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            numericUpDownX.Value = Settings.Default.CURSOR_X;
-            numericUpDownY.Value = Settings.Default.CURSOR_Y;
+
+            updateNumericUpDownPostion();
         }
 
-        private void buttonTest_Click(object sender, EventArgs e)
+        private void updateNumericUpDownPostion()
         {
-            LeftMouseClick(Settings.Default.CURSOR_X, Settings.Default.CURSOR_Y);
-
+            if (radioButtonMouse1.Checked)
+            {
+                numericUpDownX.Value = Settings.Default.CURSOR_X1;
+                numericUpDownY.Value = Settings.Default.CURSOR_Y1;
+            }
+            if (radioButtonMouse2.Checked)
+            {
+                numericUpDownX.Value = Settings.Default.CURSOR_X2;
+                numericUpDownY.Value = Settings.Default.CURSOR_Y2;
+            }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void buttonTest_Click(object sender, EventArgs e)
+        {
+            await Task.Run(() => { Thread.Sleep(1000); });
+            LeftMouseClick((int) numericUpDownX.Value, (int)numericUpDownY.Value);
+        }
+
+
+        private void radioButtonMouse1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonMouse1.Checked)
+            {
+                Settings.Default.CURSOR_INDEX = 0;
+                Settings.Default.Save();
+                numericUpDownX.Value = Settings.Default.CURSOR_X1;
+                numericUpDownY.Value = Settings.Default.CURSOR_Y1;
+            }
+        }
+
+        private void radioButtonMouse2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonMouse2.Checked)
+            {
+                Settings.Default.CURSOR_INDEX = 1;
+                Settings.Default.Save();
+                numericUpDownX.Value = Settings.Default.CURSOR_X2;
+                numericUpDownY.Value = Settings.Default.CURSOR_Y2;
+            }
+        }
+
+        private void pictureBoxTriqadafi_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://triqada.fi/");
+
         }
     }
 

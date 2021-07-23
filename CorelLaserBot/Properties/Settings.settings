@@ -2,17 +2,26 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CorelLASERBot.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="CURSOR_X" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">660</Value>
+    <Setting Name="CURSOR_X1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1205</Value>
     </Setting>
-    <Setting Name="CURSOR_Y" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">440</Value>
+    <Setting Name="CURSOR_Y1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">13</Value>
     </Setting>
     <Setting Name="PORT" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="PORT_NAME" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CURSOR_X2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">660</Value>
+    </Setting>
+    <Setting Name="CURSOR_Y2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">440</Value>
+    </Setting>
+    <Setting Name="CURSOR_INDEX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

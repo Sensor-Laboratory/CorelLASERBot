@@ -121,7 +121,9 @@
     <value>17, 17</value>
   </metadata>
   <data name="label1.Text" xml:space="preserve">
-    <value>Tekan tombol "Get" kemudian arahkan di lokasi yang akan di Click ketika terjadi trigger.
+    <value>"Double Action" akan menjalankan Click pada lokasi #1 kemudian #2 salam satu waktu.
+ 
+Tekan tombol "Get" kemudian arahkan di lokasi yang akan di Click ketika terjadi trigger.
 Tombol "Test" untuk mencoba Click pada lokasi tersebut.
 
 Software Info: [Baudrate: 115200; Trigger: 'A'; Wait Time: 60 secs; Target App: "CorelDRW";]</value>

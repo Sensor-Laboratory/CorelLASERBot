@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\template.bmp" />
+    <None Include="Resources\logo_small.png" />
     <Content Include="triqadafi.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

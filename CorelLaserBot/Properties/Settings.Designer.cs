@@ -25,25 +25,25 @@ namespace CorelLASERBot.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("660")]
-        public int CURSOR_X {
+        [global::System.Configuration.DefaultSettingValueAttribute("1205")]
+        public int CURSOR_X1 {
             get {
-                return ((int)(this["CURSOR_X"]));
+                return ((int)(this["CURSOR_X1"]));
             }
             set {
-                this["CURSOR_X"] = value;
+                this["CURSOR_X1"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("440")]
-        public int CURSOR_Y {
+        [global::System.Configuration.DefaultSettingValueAttribute("13")]
+        public int CURSOR_Y1 {
             get {
-                return ((int)(this["CURSOR_Y"]));
+                return ((int)(this["CURSOR_Y1"]));
             }
             set {
-                this["CURSOR_Y"] = value;
+                this["CURSOR_Y1"] = value;
             }
         }
         
@@ -68,6 +68,42 @@ namespace CorelLASERBot.Properties {
             }
             set {
                 this["PORT_NAME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("660")]
+        public int CURSOR_X2 {
+            get {
+                return ((int)(this["CURSOR_X2"]));
+            }
+            set {
+                this["CURSOR_X2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("440")]
+        public int CURSOR_Y2 {
+            get {
+                return ((int)(this["CURSOR_Y2"]));
+            }
+            set {
+                this["CURSOR_Y2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CURSOR_INDEX {
+            get {
+                return ((int)(this["CURSOR_INDEX"]));
+            }
+            set {
+                this["CURSOR_INDEX"] = value;
             }
         }
     }

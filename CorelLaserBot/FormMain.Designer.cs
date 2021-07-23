@@ -40,7 +40,9 @@
             this.buttonGet = new System.Windows.Forms.Button();
             this.buttonTest = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonMouse2 = new System.Windows.Forms.RadioButton();
             this.buttonReset = new System.Windows.Forms.Button();
+            this.radioButtonMouse1 = new System.Windows.Forms.RadioButton();
             this.buttonMore = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,11 +50,13 @@
             this.serialPortMain = new System.IO.Ports.SerialPort(this.components);
             this.panelIndicator1 = new System.Windows.Forms.Panel();
             this.panelIndicator2 = new System.Windows.Forms.Panel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.checkBoxDoubleAction = new System.Windows.Forms.CheckBox();
+            this.pictureBoxTriqadafi = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTriqadafi)).BeginInit();
             this.SuspendLayout();
             // 
             // timerMain
@@ -107,6 +111,7 @@
             // 
             // numericUpDownX
             // 
+            this.numericUpDownX.BackColor = System.Drawing.SystemColors.Control;
             this.numericUpDownX.Location = new System.Drawing.Point(9, 19);
             this.numericUpDownX.Maximum = new decimal(new int[] {
             10000,
@@ -125,6 +130,7 @@
             // 
             // numericUpDownY
             // 
+            this.numericUpDownY.BackColor = System.Drawing.SystemColors.Control;
             this.numericUpDownY.Location = new System.Drawing.Point(72, 19);
             this.numericUpDownY.Maximum = new decimal(new int[] {
             10000,
@@ -163,17 +169,30 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.radioButtonMouse2);
             this.groupBox1.Controls.Add(this.buttonReset);
+            this.groupBox1.Controls.Add(this.radioButtonMouse1);
             this.groupBox1.Controls.Add(this.buttonTest);
             this.groupBox1.Controls.Add(this.numericUpDownY);
             this.groupBox1.Controls.Add(this.numericUpDownX);
             this.groupBox1.Controls.Add(this.buttonGet);
-            this.groupBox1.Location = new System.Drawing.Point(271, 41);
+            this.groupBox1.Location = new System.Drawing.Point(271, 68);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(138, 105);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Mouse Action";
+            this.groupBox1.Text = "Mouse";
+            // 
+            // radioButtonMouse2
+            // 
+            this.radioButtonMouse2.AutoSize = true;
+            this.radioButtonMouse2.Location = new System.Drawing.Point(94, -1);
+            this.radioButtonMouse2.Name = "radioButtonMouse2";
+            this.radioButtonMouse2.Size = new System.Drawing.Size(38, 17);
+            this.radioButtonMouse2.TabIndex = 18;
+            this.radioButtonMouse2.Text = "#2";
+            this.radioButtonMouse2.UseVisualStyleBackColor = true;
+            this.radioButtonMouse2.CheckedChanged += new System.EventHandler(this.radioButtonMouse2_CheckedChanged);
             // 
             // buttonReset
             // 
@@ -184,6 +203,19 @@
             this.buttonReset.Text = "Reset";
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
+            // radioButtonMouse1
+            // 
+            this.radioButtonMouse1.AutoSize = true;
+            this.radioButtonMouse1.Checked = true;
+            this.radioButtonMouse1.Location = new System.Drawing.Point(56, -1);
+            this.radioButtonMouse1.Name = "radioButtonMouse1";
+            this.radioButtonMouse1.Size = new System.Drawing.Size(38, 17);
+            this.radioButtonMouse1.TabIndex = 17;
+            this.radioButtonMouse1.TabStop = true;
+            this.radioButtonMouse1.Text = "#1";
+            this.radioButtonMouse1.UseVisualStyleBackColor = true;
+            this.radioButtonMouse1.CheckedChanged += new System.EventHandler(this.radioButtonMouse1_CheckedChanged);
             // 
             // buttonMore
             // 
@@ -200,27 +232,27 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(12, 41);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(253, 126);
+            this.groupBox2.Size = new System.Drawing.Size(253, 155);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Help";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 21);
+            this.label1.Location = new System.Drawing.Point(6, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(241, 102);
+            this.label1.Size = new System.Drawing.Size(241, 131);
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(285, 152);
+            this.label2.Location = new System.Drawing.Point(293, 180);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 13);
             this.label2.TabIndex = 15;
-            this.label2.Text = "v1.3";
+            this.label2.Text = "v1.4";
             // 
             // serialPortMain
             // 
@@ -242,25 +274,39 @@
             this.panelIndicator2.Size = new System.Drawing.Size(5, 5);
             this.panelIndicator2.TabIndex = 2;
             // 
-            // linkLabel1
+            // checkBoxDoubleAction
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(354, 152);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(47, 13);
-            this.linkLabel1.TabIndex = 16;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "triqada.fi";
-            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Blue;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.checkBoxDoubleAction.AutoSize = true;
+            this.checkBoxDoubleAction.Checked = true;
+            this.checkBoxDoubleAction.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxDoubleAction.Location = new System.Drawing.Point(280, 45);
+            this.checkBoxDoubleAction.Name = "checkBoxDoubleAction";
+            this.checkBoxDoubleAction.Size = new System.Drawing.Size(93, 17);
+            this.checkBoxDoubleAction.TabIndex = 17;
+            this.checkBoxDoubleAction.Text = "Double Action";
+            this.checkBoxDoubleAction.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxTriqadafi
+            // 
+            this.pictureBoxTriqadafi.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxTriqadafi.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxTriqadafi.Image = global::CorelLASERBot.Properties.Resources.logo_small;
+            this.pictureBoxTriqadafi.Location = new System.Drawing.Point(349, 177);
+            this.pictureBoxTriqadafi.Name = "pictureBoxTriqadafi";
+            this.pictureBoxTriqadafi.Size = new System.Drawing.Size(60, 20);
+            this.pictureBoxTriqadafi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxTriqadafi.TabIndex = 50;
+            this.pictureBoxTriqadafi.TabStop = false;
+            this.pictureBoxTriqadafi.Click += new System.EventHandler(this.pictureBoxTriqadafi_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(418, 176);
-            this.Controls.Add(this.linkLabel1);
+            this.ClientSize = new System.Drawing.Size(418, 205);
+            this.Controls.Add(this.pictureBoxTriqadafi);
+            this.Controls.Add(this.checkBoxDoubleAction);
             this.Controls.Add(this.panelIndicator2);
             this.Controls.Add(this.panelIndicator1);
             this.Controls.Add(this.label2);
@@ -283,7 +329,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTriqadafi)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,7 +356,10 @@
         private System.Windows.Forms.Panel panelIndicator1;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Panel panelIndicator2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.RadioButton radioButtonMouse2;
+        private System.Windows.Forms.RadioButton radioButtonMouse1;
+        private System.Windows.Forms.CheckBox checkBoxDoubleAction;
+        private System.Windows.Forms.PictureBox pictureBoxTriqadafi;
     }
 }
 
